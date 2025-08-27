@@ -1,31 +1,28 @@
 import React, { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import "./Filter.css"; 
+import Select from "react-select";
+import "./Filter.css";
 
 function Filter() {
-  // States for each filter option
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useState({ value: "all", label: "All categories" });
   const [price, setPrice] = useState(100);
   const [carbon, setCarbon] = useState("");
-  const [sort, setSort] = useState("default");
+  const [sort, setSort] = useState({ value: "default", label: "Default sorting" });
 
-  // Default values for reset
   const defaultState = {
-    category: "all",
+    category: { value: "all", label: "All categories" },
     price: 100,
     carbon: "",
-    sort: "default",
+    sort: { value: "default", label: "Default sorting" },
   };
 
-  // Check if any filter is changed from default
   const isFilterChanged =
-    category !== defaultState.category ||
+    category.value !== defaultState.category.value ||
     price !== defaultState.price ||
     carbon !== defaultState.carbon ||
-    sort !== defaultState.sort;
+    sort.value !== defaultState.sort.value;
 
-  // Clear all filters
   const clearFilters = () => {
     setCategory(defaultState.category);
     setPrice(defaultState.price);
@@ -33,48 +30,78 @@ function Filter() {
     setSort(defaultState.sort);
   };
 
+  const customSelectStyles = {
+    control: (base) => ({
+      ...base,
+      borderRadius: "10px",
+      borderColor: "#10b981",
+      backgroundColor: "#ecfdf5",
+      minHeight: "40px",
+      fontSize: "15px",
+      color: "#064e3b",
+      boxShadow: "none",
+      ":hover": { borderColor: "#047857" },
+    }),
+    menu: (base) => ({
+      ...base,
+      borderRadius: "10px",
+      backgroundColor: "#f0fdf4",
+      boxShadow: "0 6px 18px rgba(16,185,129,0.15)",
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isFocused ? "#dbeafe" : "#f0fdf4",
+      color: "#064e3b",
+      fontSize: "15px",
+      fontWeight: 500,
+      cursor: "pointer",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#064e3b",
+      fontWeight: 500,
+    }),
+  };
+
+  // compute percent (0-100). input range is 0..100 so price === percent
+  const percent = Math.max(0, Math.min(100, Math.round(price)));
+
   return (
     <div className="card shadow-sm filter-card">
-      {/* Header */}
       <div className="card-header d-flex justify-content-between align-items-center bg-transparent border-0 pb-2">
         <h5 className="d-flex align-items-center gap-2 mb-0">
           <FaFilter size={20} /> Filters
         </h5>
         {isFilterChanged && (
-          <button
-            onClick={clearFilters}
-            className="btn btn-sm btn-light d-flex align-items-center gap-1 clear-btn"
-          >
+          <button onClick={clearFilters} className="btn btn-sm btn-light d-flex align-items-center gap-1 clear-btn">
             <IoMdClose size={16} /> Clear
           </button>
         )}
       </div>
 
-      {/* Body */}
       <div className="card-body pt-0">
-        {/* Category */}
         <div className="mb-4">
           <label className="form-label fw-medium text-muted">Category</label>
-          <select
-            className="form-select"
+          <Select
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="all">All categories</option>
-            <option value="electronics">Electronics</option>
-            <option value="clothing">Clothing</option>
-            <option value="personal-care">Personal Care</option>
-            <option value="lifestyle">Lifestyle</option>
-            <option value="fitness">Fitness</option>
-            <option value="home-garden">Home & Garden</option>
-          </select>
+            onChange={setCategory}
+            styles={customSelectStyles}
+            options={[
+              { value: "all", label: "All categories" },
+              { value: "electronics", label: "Electronics" },
+              { value: "clothing", label: "Clothing" },
+              { value: "personal-care", label: "Personal Care" },
+              { value: "lifestyle", label: "Lifestyle" },
+              { value: "fitness", label: "Fitness" },
+              { value: "home-garden", label: "Home & Garden" },
+            ]}
+          />
         </div>
 
-        {/* Price Range */}
         <div className="mb-4">
-          <label className="form-label fw-medium text-muted">
-            Price Range: $0 – ${price}
-          </label>
+          <label className="form-label fw-medium text-muted">Price Range: $0 – ${price}</label>
+
+          {/* key change: set dynamic background so left = green (filled) and right = grey */}
           <input
             type="range"
             min="0"
@@ -82,60 +109,47 @@ function Filter() {
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
             className="form-range custom-range"
+            style={{
+              background: `linear-gradient(90deg, #10b981 ${percent}%, #e5e7eb ${percent}%)`
+            }}
           />
         </div>
 
-        {/* Carbon Footprint */}
         <div className="mb-4">
-          <label className="form-label fw-medium text-muted">
-            Carbon Footprint
-          </label>
+          <label className="form-label fw-medium text-muted">Carbon Footprint</label>
           <div className="d-grid gap-2">
-            <button
-              className={`btn btn-outline-secondary d-flex align-items-center ${
-                carbon === "low" ? "active-carbon" : ""
-              }`}
-              onClick={() => setCarbon("low")}
-            >
-              <span className="badge bg-success me-2">CO₂</span>
-              Low (0–1kg CO₂)
-            </button>
-            <button
-              className={`btn btn-outline-secondary d-flex align-items-center ${
-                carbon === "medium" ? "active-carbon" : ""
-              }`}
-              onClick={() => setCarbon("medium")}
-            >
-              <span className="badge bg-warning text-white me-2">CO₂</span>
-              Medium (1–3kg CO₂)
-            </button>
-            <button
-              className={`btn btn-outline-secondary d-flex align-items-center ${
-                carbon === "high" ? "active-carbon" : ""
-              }`}
-              onClick={() => setCarbon("high")}
-            >
-              <span className="badge bg-danger me-2">CO₂</span>
-              High (3kg+ CO₂)
-            </button>
+            {[
+              { value: "low", label: "Low (0–1kg CO₂)", badge: "success" },
+              { value: "medium", label: "Medium (1–3kg CO₂)", badge: "warning" },
+              { value: "high", label: "High (3kg+ CO₂)", badge: "danger" },
+            ].map((opt) => (
+              <button
+                key={opt.value}
+                className={`btn btn-outline-secondary d-flex align-items-center carbon-btn ${carbon === opt.value ? "active-carbon" : ""}`}
+                onClick={() => setCarbon(opt.value)}
+              >
+                <span className={`badge bg-${opt.badge} me-2 co2-badge`}>CO₂</span>
+                {opt.label}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Sort */}
         <div>
           <label className="form-label fw-medium text-muted">Sort by</label>
-          <select
-            className="form-select"
+          <Select
             value={sort}
-            onChange={(e) => setSort(e.target.value)}
-          >
-            <option value="default">Default sorting</option>
-            <option value="price-low-high">Price: Low → High</option>
-            <option value="price-high-low">Price: High → Low</option>
-            <option value="carbon-low-high">Carbon: Low → High</option>
-            <option value="carbon-high-low">Carbon: High → Low</option>
-            <option value="rating">Highest Rated</option>
-          </select>
+            onChange={setSort}
+            styles={customSelectStyles}
+            options={[
+              { value: "default", label: "Default sorting" },
+              { value: "price-low-high", label: "Price: Low → High" },
+              { value: "price-high-low", label: "Price: High → Low" },
+              { value: "carbon-low-high", label: "Carbon: Low → High" },
+              { value: "carbon-high-low", label: "Carbon: High → Low" },
+              { value: "rating", label: "Highest Rated" },
+            ]}
+          />
         </div>
       </div>
     </div>
