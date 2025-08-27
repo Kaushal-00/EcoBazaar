@@ -9,5 +9,10 @@ html, body {
   min-height: 100vh; /* ensures full height */
 }
 
+.badge.bg-success {
+  background-color: #29bc28 !important;
+  color: #fff !important;
+}
+
 
 
