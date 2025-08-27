@@ -2,7 +2,7 @@ import React from "react";
 import "./Navbar.css";
 import { FaShoppingCart, FaUser, FaLeaf, FaSearch } from "react-icons/fa";
 
-export default function MyNavbar() {
+export default function Navbar() {
   return (
     <header className="custom-header sticky-top">
       <div className="container d-flex align-items-center justify-content-between h-100">

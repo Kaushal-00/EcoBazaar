@@ -1,0 +1,108 @@
+.filter-card {
+  width: 100%;
+  max-width: 320px;
+  background: #fafafa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.clear-btn {
+  background: transparent !important;
+  color: #6b7280 !important;
+  border: none !important;
+}
+.clear-btn:hover {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+}
+
+/* --- Form Controls --- */
+.form-select,
+.form-range {
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-select:focus,
+.form-range:focus {
+  border-color: #10b981; /* emerald green */
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  outline: none;
+}
+
+/* --- Range Slider --- */
+.custom-range {
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Slider Track */
+.custom-range::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #e5e7eb; /* light gray */
+  border-radius: 6px;
+}
+.custom-range::-moz-range-track {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 6px;
+}
+
+/* Slider Thumb */
+.custom-range::-webkit-slider-thumb {
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  background: #10b981; /* emerald green */
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease, transform 0.2s ease;
+  margin-top: -5px; /* aligns thumb with track */
+}
+.custom-range::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  background: #10b981;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover/Active states */
+.custom-range::-webkit-slider-thumb:hover,
+.custom-range::-moz-range-thumb:hover {
+  background: #059669; /* darker green */
+}
+
+.custom-range::-webkit-slider-thumb:active,
+.custom-range::-moz-range-thumb:active {
+  transform: scale(1.1);
+  background: #047857; /* even darker green */
+}
+
+
+/* Carbon buttons */
+
+/* Default buttons */
+.btn-outline-secondary {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  justify-content: flex-start;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Selected carbon option */
+.active-carbon {
+  background: linear-gradient(145deg, #2d7a47, #4a9d65) !important;
+  color: #fff !important;
+  border-color: #2d7a47 !important;
+}
+
