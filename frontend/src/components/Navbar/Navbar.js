@@ -1,6 +1,7 @@
 import React from "react";
 import "./Navbar.css";
-import { FaShoppingCart, FaUser, FaLeaf, FaSearch } from "react-icons/fa";
+import { FaLeaf } from "react-icons/fa";
+import { RiShoppingBag3Line, RiUserLine, RiSearchLine } from "react-icons/ri";
 
 export default function Navbar() {
   return (
@@ -29,11 +30,11 @@ export default function Navbar() {
         {/* Search Bar */}
         <form className="search-wrapper">
           <div className="search-box">
-            <FaSearch className="search-icon" />
+            <RiSearchLine className="search-icon" />
             <input 
               type="search" 
-              placeholder="Search eco-friendly products..." 
-              aria-label="Search eco-friendly products"
+              placeholder="Search products..." 
+              aria-label="Search products"
             />
           </div>
         </form>
@@ -41,11 +42,11 @@ export default function Navbar() {
         {/* User Actions */}
         <div className="user-actions">
           <a href="/cart" className="position-relative">
-            <FaShoppingCart className="action-icon" />
+            <RiShoppingBag3Line className="action-icon" />
             <span className="cart-badge">3</span>
           </a>
           <a href="/profile">
-            <FaUser className="action-icon" />
+            <RiUserLine className="action-icon" />
           </a>
         </div>
       </div>
