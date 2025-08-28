@@ -5,14 +5,11 @@ html, body {
   font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: rgba(244, 242, 238); /* ✅ Added background color */
-  min-height: 100vh; /* ensures full height */
+  background-color: rgba(244, 242, 238);
+  min-height: 100vh;
 }
 
 .badge.bg-success {
   background-color: #29bc28 !important;
   color: #fff !important;
 }
-
-
-
