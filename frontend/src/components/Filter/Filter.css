@@ -1,18 +1,24 @@
 /* ================================
    Filter Card
 ================================ */
-.filter-card {
-  width: 100%;
-  max-width: 420px;
-  background: #fff;
-  border: 1px solid #047857;
-  border-radius: 10px;
-  padding: 10px;
-  transition: box-shadow 0.2s ease;
+.filter-wrapper {
+  position: sticky;
+  /* Add navbar height (64px) plus some padding (20px) */
+  top: 84px;
+  height: calc(100vh - 84px); /* Viewport height minus navbar + padding */
+  overflow-y: auto; /* Allow scrolling if filter content is too long */
+  padding-bottom: 20px;
+  z-index: 10;
 }
 
-.filter-card:hover {
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+.filter-card {
+  width: 100%;
+  max-width: 320px; /* Match product card width */
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* ================================

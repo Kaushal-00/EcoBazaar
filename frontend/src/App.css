@@ -1,0 +1,30 @@
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+}
+
+/* Add padding to bottom of page to ensure enough scroll room */
+.row {
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .filter-card {
+    max-width: 100%;
+  }
+  
+  .eco-product-card {
+    max-width: 240px;
+  }
+}
+
+@media (max-width: 576px) {
+  .eco-product-card {
+    max-width: 100%;
+  }
+}
