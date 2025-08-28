@@ -9,6 +9,12 @@ html, body {
   min-height: 100vh;
 }
 
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .badge.bg-success {
   background-color: #29bc28 !important;
   color: #fff !important;
