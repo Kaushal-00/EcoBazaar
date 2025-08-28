@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Filters from "./components/Filter/Filter";
 import ProductGrid from "./components/ProductGrid/ProductGrid";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
