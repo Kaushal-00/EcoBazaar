@@ -160,9 +160,21 @@
   font-size: 0.85rem;
   color: #6b7280;
   margin: 8px 0;
+  /* Add standard property first */
   display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  
+  /* Add all vendor prefixes for line-clamp */
   -webkit-line-clamp: 2;
+  -moz-line-clamp: 2;
+  line-clamp: 2;
+  
+  /* Add all vendor prefixes for box-orient */
   -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  box-orient: vertical;
+  
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.4;
