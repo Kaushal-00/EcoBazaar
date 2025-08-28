@@ -1,0 +1,20 @@
+.product-grid {
+  width: 100%;
+}
+
+/* Add padding to bottom of page to ensure enough scroll room */
+.product-grid .row {
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .product-grid .eco-product-card {
+    max-width: 240px;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-grid .eco-product-card {
+    max-width: 100%;
+  }
+}
