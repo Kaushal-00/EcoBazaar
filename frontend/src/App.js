@@ -1,11 +1,12 @@
 import React from "react";
-import Customer_Dashboard from "./pages/Customer_Dashboard/Customer_Dashboard";
+import { BrowserRouter } from "react-router-dom";
+import Home from "./pages/Home";
 
 function App() {
   return (
-    <>
-          <Customer_Dashboard />
-    </>
+
+      <Home />
+
   );
 }
 
