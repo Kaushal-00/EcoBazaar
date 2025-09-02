@@ -1,12 +1,23 @@
 // src/components/Navbar.js
 import React, { useContext } from "react";
 import { FaShoppingCart, FaUser, FaLeaf, FaSearch } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 export default function Navbar() {
   const { cartItems } = useContext(CartContext);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Determine user role based on current path
+  const getRoleFromPath = () => {
+    if (location.pathname.startsWith("/customer")) return "customer";
+    if (location.pathname.startsWith("/seller")) return "seller";
+    if (location.pathname.startsWith("/admin")) return "admin";
+    return "customer"; // default
+  };
+
+  const role = getRoleFromPath();
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-300">
@@ -37,20 +48,28 @@ export default function Navbar() {
 
         {/* User Actions */}
         <div className="flex items-center gap-4">
+          {/* Cart Button */}
+          {role === "customer" && (
+            <button
+              onClick={() => navigate("/customer/cart")}
+              className="relative flex items-center justify-center w-9 h-9 rounded-md hover:bg-green-700 transition"
+            >
+              <FaShoppingCart className="w-5 h-5 text-gray-800 hover:text-white transition" />
+              {cartItems.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white w-5 h-5 text-xs rounded-full flex items-center justify-center">
+                  {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
+                </span>
+              )}
+            </button>
+          )}
+
+          {/* Profile Button */}
           <button
-            onClick={() => navigate("/customer/cart")}
-            className="relative flex items-center justify-center w-9 h-9 rounded-md hover:bg-green-700 transition"
+            onClick={() => navigate(`/${role}/profile`)}
+            className="flex items-center justify-center w-9 h-9 rounded-md hover:bg-green-700 transition"
           >
-            <FaShoppingCart className="w-5 h-5 text-gray-800 hover:text-white transition" />
-            {cartItems.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white w-5 h-5 text-xs rounded-full flex items-center justify-center">
-                {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
-              </span>
-            )}
-          </button>
-          <a href="/profile" className="flex items-center justify-center w-9 h-9 rounded-md hover:bg-green-700 transition">
             <FaUser className="w-5 h-5 text-gray-800 hover:text-white transition" />
-          </a>
+          </button>
         </div>
       </div>
     </header>

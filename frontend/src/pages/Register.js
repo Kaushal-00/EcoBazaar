@@ -18,8 +18,12 @@ export default function Register() {
 
   const handleRegister = (e) => {
     e.preventDefault();
+
+    // Here you would normally call your API to register the user
     console.log("Registering:", role, fullName, email, phone, address, password);
-    navigate(`/${role.toLowerCase()}/dashboard`);
+
+    // Redirect all users to login page after registration
+    navigate("/login");
   };
 
   const roleInfo = {
@@ -58,9 +62,7 @@ export default function Register() {
             <h2 className="text-2xl font-bold text-emerald-700">
               {roleInfo[role].title}
             </h2>
-            <p className="text-gray-600 text-sm mt-2">
-              {roleInfo[role].subtitle}
-            </p>
+            <p className="text-gray-600 text-sm mt-2">{roleInfo[role].subtitle}</p>
           </div>
 
           {/* Role Switcher */}
@@ -68,6 +70,7 @@ export default function Register() {
             {["Customer", "Seller"].map((item) => (
               <button
                 key={item}
+                type="button"
                 onClick={() => setRole(item)}
                 className={`flex-1 py-2 text-sm font-medium rounded-md transition ${
                   role === item
@@ -82,7 +85,6 @@ export default function Register() {
 
           {/* Form */}
           <form onSubmit={handleRegister} className="space-y-4">
-            {/* Grid for compact fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Full Name */}
               <div>
@@ -120,7 +122,7 @@ export default function Register() {
                 </div>
               </div>
 
-              {/* Phone Number */}
+              {/* Phone */}
               <div>
                 <label className="block text-sm font-medium mb-1 text-slate-700">
                   Phone Number
@@ -193,7 +195,7 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Terms and Eco Commitment */}
+            {/* Terms & Eco Commitment */}
             <div className="flex flex-col gap-2 text-sm text-slate-700">
               <label className="flex items-center gap-2">
                 <input
@@ -237,10 +239,8 @@ export default function Register() {
             </button>
           </form>
 
-          {/* Divider */}
-          <div className="my-6 border-t border-slate-200"></div>
-
           {/* Sign In Link */}
+          <div className="my-6 border-t border-slate-200"></div>
           <p className="text-center text-sm text-slate-600 mb-3">
             Already have an account?
           </p>
