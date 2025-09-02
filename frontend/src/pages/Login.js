@@ -55,9 +55,7 @@ export default function Login() {
             <h2 className="text-2xl font-bold text-emerald-700">
               {roleInfo[role].title}
             </h2>
-            <p className="text-gray-600 text-sm mt-2">
-              {roleInfo[role].subtitle}
-            </p>
+            <p className="text-gray-600 text-sm mt-2">{roleInfo[role].subtitle}</p>
           </div>
 
           {/* Role Switcher */}
