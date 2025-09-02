@@ -1,7 +1,7 @@
 import React from "react";
 
 function Badge({ className = "", variant = "primary", asChild = false, children, ...props }) {
-  // Use the variant directly for Bootstrap badge
+
   const badgeClass = `badge bg-${variant} ${className}`;
 
   const Comp = asChild ? "span" : "span";

@@ -5,7 +5,7 @@ import Select from "react-select";
 import { Badge } from "../ui/badge";
 import "./Filter.css";
 
-function Filter() {
+export default function Filter() {
   const [category, setCategory] = useState({ value: "all", label: "All categories" });
   const [price, setPrice] = useState(100);
   const [carbon, setCarbon] = useState("");
@@ -68,92 +68,97 @@ function Filter() {
 
   return (
     <div className="filter-wrapper">
-      <div className="card shadow-sm filter-card">
-        <div className="card-header d-flex justify-content-between align-items-center bg-transparent border-0 pb-2">
+      <div className="filter-card px-4">
+        {/* Header */}
+        <div className="d-flex justify-content-between align-items-center mb-4">
           <h5 className="d-flex align-items-center gap-2 mb-0">
             <FaFilter size={20} /> Filters
           </h5>
           {isFilterChanged && (
-            <button onClick={clearFilters} className="btn btn-sm btn-light d-flex align-items-center gap-1 clear-btn">
+            <button onClick={clearFilters} className="clear-btn d-flex align-items-center gap-1">
               <IoMdClose size={16} /> Clear
             </button>
           )}
         </div>
 
-        <div className="card-body pt-0">
-          <div className="mb-4">
-            <label className="form-label fw-medium text-muted">Category</label>
-            <Select
-              value={category}
-              onChange={setCategory}
-              styles={customSelectStyles}
-              options={[
-                { value: "all", label: "All categories" },
-                { value: "electronics", label: "Electronics" },
-                { value: "clothing", label: "Clothing" },
-                { value: "personal-care", label: "Personal Care" },
-                { value: "lifestyle", label: "Lifestyle" },
-                { value: "fitness", label: "Fitness" },
-                { value: "home-garden", label: "Home & Garden" },
-              ]}
-            />
-          </div>
+        {/* Category */}
+        <div className="mb-4 px-2">
+          <label className="form-label fw-medium text-muted">Category</label>
+          <Select
+            value={category}
+            onChange={setCategory}
+            styles={customSelectStyles}
+            options={[
+              { value: "all", label: "All categories" },
+              { value: "electronics", label: "Electronics" },
+              { value: "clothing", label: "Clothing" },
+              { value: "personal-care", label: "Personal Care" },
+              { value: "lifestyle", label: "Lifestyle" },
+              { value: "fitness", label: "Fitness" },
+              { value: "home-garden", label: "Home & Garden" },
+            ]}
+          />
+        </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-medium text-muted">Price Range: $0 – ${price}</label>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={price}
-              onChange={(e) => setPrice(Number(e.target.value))}
-              className="form-range custom-range"
-              style={{
-                background: `linear-gradient(90deg, #10b981 ${percent}%, #e5e7eb ${percent}%)`
-              }}
-            />
-          </div>
+        {/* Price Range */}
+        <div className="mb-4 px-2">
+          <label className="form-label fw-medium text-muted">Price Range: $0 – ${price}</label>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={price}
+            onChange={(e) => setPrice(Number(e.target.value))}
+            className="custom-range w-full"
+            style={{
+              background: `linear-gradient(90deg, #10b981 ${percent}%, #e5e7eb ${percent}%)`,
+            }}
+          />
+        </div>
 
-          <div className="mb-4">
-            <label className="form-label fw-medium text-muted">Carbon Footprint</label>
-            <div className="d-grid gap-2">
-              {[
-                { value: "low", label: "Low (0–1kg CO₂)", badge: "success" },
-                { value: "medium", label: "Medium (1–3kg CO₂)", badge: "warning" },
-                { value: "high", label: "High (3kg+ CO₂)", badge: "danger" },
-              ].map((opt) => (
-                <button
-                  key={opt.value}
-                  className={`btn btn-outline-secondary d-flex align-items-center carbon-btn ${carbon === opt.value ? "active-carbon" : ""}`}
-                  onClick={() => setCarbon(opt.value)}
-                >
-                  <Badge variant={opt.badge} className="me-2 co2-badge">CO₂</Badge>
-                  {opt.label}
-                </button>
-              ))}
-            </div>
+        {/* Carbon Footprint */}
+        <div className="mb-4 px-2">
+          <label className="form-label fw-medium text-muted">Carbon Footprint</label>
+          <div className="d-grid gap-2">
+            {[ 
+              { value: "low", label: "Low (0–1kg CO₂)", badge: "success" },
+              { value: "medium", label: "Medium (1–3kg CO₂)", badge: "warning" },
+              { value: "high", label: "High (3kg+ CO₂)", badge: "danger" },
+            ].map((opt) => (
+              <button
+                key={opt.value}
+                className={`btn btn-outline-secondary d-flex align-items-center carbon-btn ${
+                  carbon === opt.value ? "active-carbon" : ""
+                }`}
+                onClick={() => setCarbon(opt.value)}
+              >
+                <Badge variant={opt.badge} className="me-2 co2-badge">
+                  CO₂
+                </Badge>
+                {opt.label}
+              </button>
+            ))}
           </div>
+        </div>
 
-          <div>
-            <label className="form-label fw-medium text-muted">Sort by</label>
-            <Select
-              value={sort}
-              onChange={setSort}
-              styles={customSelectStyles}
-              options={[
-                { value: "default", label: "Default sorting" },
-                { value: "price-low-high", label: "Price: Low → High" },
-                { value: "price-high-low", label: "Price: High → Low" },
-                { value: "carbon-low-high", label: "Carbon: Low → High" },
-                { value: "carbon-high-low", label: "Carbon: High → Low" },
-                { value: "rating", label: "Highest Rated" },
-              ]}
-            />
-          </div>
+        {/* Sort By */}
+        <div className="px-2">
+          <label className="form-label fw-medium text-muted">Sort by</label>
+          <Select
+            value={sort}
+            onChange={setSort}
+            styles={customSelectStyles}
+            options={[
+              { value: "default", label: "Default sorting" },
+              { value: "price-low-high", label: "Price: Low → High" },
+              { value: "price-high-low", label: "Price: High → Low" },
+              { value: "carbon-low-high", label: "Carbon: Low → High" },
+              { value: "carbon-high-low", label: "Carbon: High → Low" },
+              { value: "rating", label: "Highest Rated" },
+            ]}
+          />
         </div>
       </div>
     </div>
   );
 }
-
-export default Filter;
