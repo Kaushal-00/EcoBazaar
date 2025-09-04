@@ -40,7 +40,7 @@ export default function Home() {
             Explore Products
           </a>
           <a
-            href="/register"
+            href="/login"
             className="px-6 py-3 rounded-lg border border-emerald-600 text-emerald-700 font-medium hover:bg-emerald-50 transition"
           >
             Become a Seller
