@@ -1,18 +1,40 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaSpinner } from "react-icons/fa";
 import { FaLeaf } from "react-icons/fa6";
+import { authService } from "../services/authService";
 
 export default function Login() {
   const [role, setRole] = useState("Customer");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  // Updated login handler that sends selected role
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Logging in:", role, email, password);
-    navigate(`/${role.toLowerCase()}/dashboard`);
+    setError("");
+    setIsLoading(true);
+
+    try {
+      // Send role with login request
+      const response = await authService.login({ 
+        email, 
+        password, 
+        role: role.toUpperCase() 
+      });
+
+      // Redirect based on the selected role (not backend role)
+      const userRole = role.toLowerCase();
+      navigate(`/${userRole}/dashboard`);
+    } catch (err) {
+      setError(err.error || "Login failed. Please check your credentials and role.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const roleInfo = {
@@ -55,7 +77,9 @@ export default function Login() {
             <h2 className="text-2xl font-bold text-emerald-700">
               {roleInfo[role].title}
             </h2>
-            <p className="text-gray-600 text-sm mt-2">{roleInfo[role].subtitle}</p>
+            <p className="text-gray-600 text-sm mt-2">
+              {roleInfo[role].subtitle}
+            </p>
           </div>
 
           {/* Role Switcher */}
@@ -77,6 +101,13 @@ export default function Login() {
 
           {/* Form */}
           <form onSubmit={handleLogin} className="space-y-4">
+            {/* Error Message */}
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+
             {/* Email */}
             <div>
               <label className="block text-sm font-medium mb-1 text-slate-700">
@@ -123,12 +154,24 @@ export default function Login() {
               </Link>
             </div>
 
-            {/* Submit Button */}
+            {/* Submit Button with Loading Spinner */}
             <button
               type="submit"
-              className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-lg font-medium shadow hover:from-emerald-700 hover:to-emerald-600"
+              disabled={isLoading}
+              className={`w-full py-3 text-white rounded-lg font-medium shadow flex items-center justify-center gap-2 ${
+                isLoading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600"
+              }`}
             >
-              Sign In as {role}
+              {isLoading ? (
+                <>
+                  <FaSpinner className="animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                `Sign In as ${role}`
+              )}
             </button>
           </form>
 
@@ -137,7 +180,7 @@ export default function Login() {
 
           {/* Create Account */}
           <p className="text-center text-sm text-slate-600 mb-3">
-            Don’t have an account?
+            Don't have an account?
           </p>
           <Link
             to="/register"

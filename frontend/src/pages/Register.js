@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { FaEnvelope, FaLock, FaUser, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaLock,
+  FaUser,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaSpinner,
+} from "react-icons/fa";
 import { FaLeaf } from "react-icons/fa6";
+import { authService } from "../services/authService";
 
 export default function Register() {
   const [role, setRole] = useState("Customer");
@@ -14,16 +22,48 @@ export default function Register() {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [ecoCommit, setEcoCommit] = useState(false);
 
+  // NEW state for API interaction
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  // ✅ Updated handleRegister
+  const handleRegister = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
 
-    // Here you would normally call your API to register the user
-    console.log("Registering:", role, fullName, email, phone, address, password);
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
 
-    // Redirect all users to login page after registration
-    navigate("/login");
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await authService.register({
+        fullName,
+        email,
+        phone,
+        address,
+        password,
+        role,
+      });
+
+      setSuccess("Registration successful! Redirecting to login...");
+      setTimeout(() => navigate("/login"), 2000);
+    } catch (err) {
+      setError(err.error || "Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const roleInfo = {
@@ -62,7 +102,9 @@ export default function Register() {
             <h2 className="text-2xl font-bold text-emerald-700">
               {roleInfo[role].title}
             </h2>
-            <p className="text-gray-600 text-sm mt-2">{roleInfo[role].subtitle}</p>
+            <p className="text-gray-600 text-sm mt-2">
+              {roleInfo[role].subtitle}
+            </p>
           </div>
 
           {/* Role Switcher */}
@@ -195,6 +237,12 @@ export default function Register() {
               </div>
             </div>
 
+            {/* Show messages */}
+            {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+            {success && (
+              <p className="text-green-600 text-sm text-center">{success}</p>
+            )}
+
             {/* Terms & Eco Commitment */}
             <div className="flex flex-col gap-2 text-sm text-slate-700">
               <label className="flex items-center gap-2">
@@ -229,13 +277,21 @@ export default function Register() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={!(agreeTerms && ecoCommit)}
+              disabled={!(agreeTerms && ecoCommit) || isLoading}
               className={`w-full py-3 text-white rounded-lg font-medium shadow 
-                ${agreeTerms && ecoCommit 
-                  ? "bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600" 
-                  : "bg-slate-300 cursor-not-allowed"}`}
+                ${
+                  agreeTerms && ecoCommit && !isLoading
+                    ? "bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600"
+                    : "bg-slate-300 cursor-not-allowed"
+                }`}
             >
-              Create {role} Account
+              {isLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <FaSpinner className="animate-spin" /> Creating {role} Account…
+                </span>
+              ) : (
+                `Create ${role} Account`
+              )}
             </button>
           </form>
 
