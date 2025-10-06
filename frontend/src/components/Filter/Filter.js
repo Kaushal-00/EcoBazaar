@@ -1,162 +1,188 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaFilter } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import Select from "react-select";
 import { Badge } from "../ui/badge";
-import "./Filter.css";
 
-export default function Filter() {
-  const [category, setCategory] = useState({ value: "all", label: "All categories" });
-  const [price, setPrice] = useState(100);
-  const [carbon, setCarbon] = useState("");
-  const [sort, setSort] = useState({ value: "default", label: "Default sorting" });
-
-  const defaultState = {
-    category: { value: "all", label: "All categories" },
-    price: 100,
-    carbon: "",
-    sort: { value: "default", label: "Default sorting" },
-  };
+export default function Filter({ value, onChange, onClear, categories = [] }) {
+  const category = value?.category ?? "all";
+  const price = value?.price ?? 100;
+  const carbon = value?.carbon ?? "";
+  const sort = value?.sort ?? "default";
 
   const isFilterChanged =
-    category.value !== defaultState.category.value ||
-    price !== defaultState.price ||
-    carbon !== defaultState.carbon ||
-    sort.value !== defaultState.sort.value;
+    category !== "all" || price !== 100 || carbon !== "" || sort !== "default";
 
-  const clearFilters = () => {
-    setCategory(defaultState.category);
-    setPrice(defaultState.price);
-    setCarbon(defaultState.carbon);
-    setSort(defaultState.sort);
-  };
+  const setCategory = (opt) => onChange?.({ category: opt?.value || "all" });
+  const setPrice = (v) => onChange?.({ price: Number(v) });
+  const setCarbon = (v) => onChange?.({ carbon: v });
+  const setSort = (opt) => onChange?.({ sort: opt?.value || "default" });
+
+  const clearFilters = () => onClear?.();
 
   const customSelectStyles = {
-    control: (base) => ({
+    control: (base, state) => ({
       ...base,
-      borderRadius: "10px",
-      borderColor: "#10b981",
-      backgroundColor: "#ecfdf5",
-      minHeight: "40px",
-      fontSize: "15px",
-      color: "#064e3b",
-      boxShadow: "none",
-      ":hover": { borderColor: "#047857" },
+      backgroundColor: "#f9fafb",
+      borderColor: state.isFocused ? "#10b981" : "#d1d5db",
+      borderRadius: "0.5rem",
+      borderWidth: "1px",
+      boxShadow: state.isFocused ? "0 0 0 2px rgba(16, 185, 129, 0.2)" : "none",
+      minHeight: "2.5rem",
+      fontSize: "0.875rem",
+      ":hover": { borderColor: "#10b981" },
     }),
     menu: (base) => ({
       ...base,
-      borderRadius: "10px",
-      backgroundColor: "#f0fdf4",
-      boxShadow: "0 6px 18px rgba(16,185,129,0.15)",
+      backgroundColor: "#ffffff",
+      borderRadius: "0.5rem",
+      border: "1px solid #e5e7eb",
+      boxShadow:
+        "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+      zIndex: 50,
     }),
     option: (base, state) => ({
       ...base,
-      backgroundColor: state.isFocused ? "#dbeafe" : "#f0fdf4",
-      color: "#064e3b",
-      fontSize: "15px",
+      backgroundColor: state.isFocused
+        ? "#ecfdf5"
+        : state.isSelected
+        ? "#10b981"
+        : "transparent",
+      color: state.isSelected ? "#ffffff" : "#374151",
+      fontSize: "0.875rem",
       fontWeight: 500,
       cursor: "pointer",
+      ":hover": { backgroundColor: "#ecfdf5" },
     }),
-    singleValue: (base) => ({
-      ...base,
-      color: "#064e3b",
-      fontWeight: 500,
-    }),
+    singleValue: (base) => ({ ...base, color: "#374151", fontWeight: 500 }),
+    placeholder: (base) => ({ ...base, color: "#9ca3af" }),
   };
 
-  const percent = Math.max(0, Math.min(100, Math.round(price)));
+  const fillPercentage = Math.max(0, Math.min(100, price));
+
+  // Generate category options from dynamic categories
+  const categoryOptions = [
+    { value: "all", label: "All categories" },
+    ...categories.map(cat => ({
+      value: cat.toLowerCase(),
+      label: cat
+    }))
+  ];
 
   return (
-    <div className="filter-wrapper">
-      <div className="filter-card px-4">
+    <div className="sticky top-20 h-fit">
+      <div className="w-full bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
         {/* Header */}
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h5 className="d-flex align-items-center gap-2 mb-0">
-            <FaFilter size={20} /> Filters
+        <div className="flex items-center justify-between mb-6">
+          <h5 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
+            <FaFilter className="text-emerald-600" />
+            Filters
           </h5>
           {isFilterChanged && (
-            <button onClick={clearFilters} className="clear-btn d-flex align-items-center gap-1">
-              <IoMdClose size={16} /> Clear
+            <button
+              onClick={clearFilters}
+              className="flex items-center gap-1 px-2 py-1 text-sm font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-md transition"
+            >
+              <IoMdClose size={16} />
+              Clear
             </button>
           )}
         </div>
 
-        {/* Category */}
-        <div className="mb-4 px-2">
-          <label className="form-label fw-medium text-muted">Category</label>
-          <Select
-            value={category}
-            onChange={setCategory}
-            styles={customSelectStyles}
-            options={[
-              { value: "all", label: "All categories" },
-              { value: "electronics", label: "Electronics" },
-              { value: "clothing", label: "Clothing" },
-              { value: "personal-care", label: "Personal Care" },
-              { value: "lifestyle", label: "Lifestyle" },
-              { value: "fitness", label: "Fitness" },
-              { value: "home-garden", label: "Home & Garden" },
-            ]}
-          />
-        </div>
-
-        {/* Price Range */}
-        <div className="mb-4 px-2">
-          <label className="form-label fw-medium text-muted">Price Range: $0 – ${price}</label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-            className="custom-range w-full"
-            style={{
-              background: `linear-gradient(90deg, #10b981 ${percent}%, #e5e7eb ${percent}%)`,
-            }}
-          />
-        </div>
-
-        {/* Carbon Footprint */}
-        <div className="mb-4 px-2">
-          <label className="form-label fw-medium text-muted">Carbon Footprint</label>
-          <div className="d-grid gap-2">
-            {[ 
-              { value: "low", label: "Low (0–1kg CO₂)", badge: "success" },
-              { value: "medium", label: "Medium (1–3kg CO₂)", badge: "warning" },
-              { value: "high", label: "High (3kg+ CO₂)", badge: "danger" },
-            ].map((opt) => (
-              <button
-                key={opt.value}
-                className={`btn btn-outline-secondary d-flex align-items-center carbon-btn ${
-                  carbon === opt.value ? "active-carbon" : ""
-                }`}
-                onClick={() => setCarbon(opt.value)}
-              >
-                <Badge variant={opt.badge} className="me-2 co2-badge">
-                  CO₂
-                </Badge>
-                {opt.label}
-              </button>
-            ))}
+        <div className="space-y-6">
+          {/* Category */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Category
+            </label>
+            <Select
+              value={categoryOptions.find(opt => opt.value === category) || categoryOptions[0]}
+              onChange={setCategory}
+              styles={customSelectStyles}
+              options={categoryOptions}
+            />
           </div>
-        </div>
 
-        {/* Sort By */}
-        <div className="px-2">
-          <label className="form-label fw-medium text-muted">Sort by</label>
-          <Select
-            value={sort}
-            onChange={setSort}
-            styles={customSelectStyles}
-            options={[
-              { value: "default", label: "Default sorting" },
-              { value: "price-low-high", label: "Price: Low → High" },
-              { value: "price-high-low", label: "Price: High → Low" },
-              { value: "carbon-low-high", label: "Carbon: Low → High" },
-              { value: "carbon-high-low", label: "Carbon: High → Low" },
-              { value: "rating", label: "Highest Rated" },
-            ]}
-          />
+          {/* Price Range */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Price up to: ${price}
+            </label>
+            <div className="relative">
+              <input
+                type="range"
+                min="0"
+                max="200"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+                style={{
+                  background: `linear-gradient(90deg, #10b981 ${fillPercentage/2}%, #e2e8f0 ${fillPercentage/2}%)`,
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Carbon Footprint */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-3">
+              Carbon Footprint
+            </label>
+            <div className="space-y-2">
+              {[
+                { value: "low", label: "Low (0–1kg CO₂)", badge: "success" },
+                { value: "medium", label: "Medium (1–3kg CO₂)", badge: "warning" },
+                { value: "high", label: "High (3kg+ CO₂)", badge: "danger" },
+              ].map((opt) => (
+                <button
+                  key={opt.value}
+                  className={`w-full flex items-center gap-3 p-3 text-sm font-medium rounded-lg border transition ${
+                    carbon === opt.value
+                      ? "bg-emerald-50 border-emerald-500 text-emerald-700"
+                      : "bg-white border-slate-200 text-slate-700 hover:border-emerald-500 hover:ring-1 hover:ring-emerald-400"
+                  }`}
+                  onClick={() => setCarbon(carbon === opt.value ? "" : opt.value)}
+                >
+                  <Badge variant={opt.badge}>CO₂</Badge>
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Sort By */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Sort by
+            </label>
+            <Select
+              value={{
+                value: sort,
+                label:
+                  sort === "default"
+                    ? "Default sorting"
+                    : sort === "price-low-high"
+                    ? "Price: Low → High"
+                    : sort === "price-high-low"
+                    ? "Price: High → Low"
+                    : sort === "carbon-low-high"
+                    ? "Carbon: Low → High"
+                    : sort === "carbon-high-low"
+                    ? "Carbon: High → Low"
+                    : "Highest Rated",
+              }}
+              onChange={setSort}
+              styles={customSelectStyles}
+              options={[
+                { value: "default", label: "Default sorting" },
+                { value: "price-low-high", label: "Price: Low → High" },
+                { value: "price-high-low", label: "Price: High → Low" },
+                { value: "carbon-low-high", label: "Carbon: Low → High" },
+                { value: "carbon-high-low", label: "Carbon: High → Low" },
+                { value: "rating", label: "Highest Rated" },
+              ]}
+            />
+          </div>
         </div>
       </div>
     </div>
