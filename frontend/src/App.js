@@ -15,9 +15,11 @@ import CustomerProfile from "./pages/Customer/CustomerProfile";
 
 // Seller
 import SellerDashboard from "./pages/Seller/SellerDashboard";
+import SellerProfile from "./pages/Seller/SellerProfile";
 
 // Admin
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminProfile from "./pages/Admin/AdminProfile";
 
 function App() {
   return (
@@ -38,9 +40,11 @@ function App() {
 
           {/* Seller */}
           <Route path="/seller/dashboard" element={<SellerDashboard />} />
+          <Route path="/seller/profile" element={<SellerProfile />} />
 
           {/* Admin */}
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
 
           {/* Catch All */}
           <Route path="*" element={<Home />} />

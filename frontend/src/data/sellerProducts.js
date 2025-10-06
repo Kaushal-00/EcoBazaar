@@ -1,11 +1,10 @@
-// src/data/sellerProducts.js
-
 export const mockProducts = [
   {
     id: "1",
     name: "Eco-Friendly Water Bottle",
     price: 29.99,
-    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
     rating: 4.8,
     reviews: 124,
     carbonFootprint: 2.3,
@@ -13,14 +12,16 @@ export const mockProducts = [
     seller: "Solar Tech Solutions",
     stock: 45,
     unitsSold: 150,
-    revenue: 29.99 * 150,
-    description: "Made from recycled materials, this water bottle helps reduce plastic waste while keeping your drinks fresh."
+    revenue: +(29.99 * 150).toFixed(2),
+    description:
+      "Made from recycled materials, this water bottle helps reduce plastic waste while keeping your drinks fresh.",
   },
   {
-    id: "2", 
+    id: "2",
     name: "Solar Power Bank",
     price: 79.99,
-    image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
     rating: 4.6,
     reviews: 89,
     carbonFootprint: 5.1,
@@ -28,14 +29,16 @@ export const mockProducts = [
     seller: "Solar Tech Solutions",
     stock: 23,
     unitsSold: 60,
-    revenue: 79.99 * 60,
-    description: "Harness the power of the sun to charge your devices. Perfect for outdoor adventures and emergency backup."
+    revenue: +(79.99 * 60).toFixed(2),
+    description:
+      "Harness the power of the sun to charge your devices. Perfect for outdoor adventures and emergency backup.",
   },
   {
     id: "3",
     name: "Bamboo Toothbrush Set",
     price: 19.99,
-    image: "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?w=400&h=400&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?w=400&h=400&fit=crop",
     rating: 4.9,
     reviews: 267,
     carbonFootprint: 0.8,
@@ -43,14 +46,16 @@ export const mockProducts = [
     seller: "Solar Tech Solutions",
     stock: 78,
     unitsSold: 200,
-    revenue: 19.99 * 200,
-    description: "Biodegradable bamboo toothbrushes that are gentle on your teeth and the environment."
+    revenue: +(19.99 * 200).toFixed(2),
+    description:
+      "Biodegradable bamboo toothbrushes that are gentle on your teeth and the environment.",
   },
   {
     id: "4",
     name: "Organic Cotton T-Shirt",
     price: 34.99,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
     rating: 4.7,
     reviews: 156,
     carbonFootprint: 3.2,
@@ -58,14 +63,16 @@ export const mockProducts = [
     seller: "Solar Tech Solutions",
     stock: 34,
     unitsSold: 90,
-    revenue: 34.99 * 90,
-    description: "Soft, comfortable, and sustainably made from 100% organic cotton. Available in multiple colors."
+    revenue: +(34.99 * 90).toFixed(2),
+    description:
+      "Soft, comfortable, and sustainably made from 100% organic cotton. Available in multiple colors.",
   },
   {
     id: "5",
     name: "LED Plant Grow Light",
     price: 89.99,
-    image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=400&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=400&fit=crop",
     rating: 4.5,
     reviews: 92,
     carbonFootprint: 4.7,
@@ -73,14 +80,16 @@ export const mockProducts = [
     seller: "Solar Tech Solutions",
     stock: 18,
     unitsSold: 50,
-    revenue: 89.99 * 50,
-    description: "Energy-efficient LED grow light to help your indoor plants thrive year-round."
+    revenue: +(89.99 * 50).toFixed(2),
+    description:
+      "Energy-efficient LED grow light to help your indoor plants thrive year-round.",
   },
   {
     id: "6",
     name: "Reusable Shopping Bag",
     price: 12.99,
-    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
     rating: 4.4,
     reviews: 76,
     carbonFootprint: 1.2,
@@ -88,14 +97,16 @@ export const mockProducts = [
     seller: "Solar Tech Solutions",
     stock: 120,
     unitsSold: 300,
-    revenue: 12.99 * 300,
-    description: "Durable and washable shopping bags made from recycled fabrics."
+    revenue: +(12.99 * 300).toFixed(2),
+    description:
+      "Durable and washable shopping bags made from recycled fabrics.",
   },
   {
     id: "7",
     name: "Solar Lantern",
     price: 49.99,
-    image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
     rating: 4.7,
     reviews: 52,
     carbonFootprint: 2.9,
@@ -103,7 +114,8 @@ export const mockProducts = [
     seller: "Solar Tech Solutions",
     stock: 40,
     unitsSold: 75,
-    revenue: 49.99 * 75,
-    description: "Portable solar lantern ideal for camping and emergencies."
-  }
+    revenue: +(49.99 * 75).toFixed(2),
+    description:
+      "Portable solar lantern ideal for camping and emergencies.",
+  },
 ];
