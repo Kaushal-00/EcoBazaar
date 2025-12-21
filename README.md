@@ -65,6 +65,9 @@ EcoBazaar/
 │   ├── pom.xml
 │   └── README.md
 │
+├── database/                     # Database schema & setup
+│   └── schema.sql                # MySQL schema (tables & relationships)
+│
 ├── docs/                         # Reports, PPT, diagrams
 │   ├── architecture/
 │   ├── screenshots/
@@ -164,6 +167,47 @@ EcoBazaar/
 * Spring Boot
 * Maven 3.5.5
 * MySQL database
+
+---
+
+## **Database Design & Setup**
+
+- EcoBazaarX uses a **relational MySQL database** designed to support scalability, data integrity, and role-based access control.
+- The repository includes a **clean database schema** that defines all tables, relationships, and constraints required to run the application.
+
+### **Database Folder**
+
+```
+database/
+└── schema.sql   # MySQL schema for EcoBazaarX
+```
+
+### **Schema Highlights**
+
+* User, Role, and User-Role mapping tables
+* Product and Category management
+* Cart and Cart Items relationships
+* Referential integrity using foreign keys
+* Designed following normalization principles
+
+### **How to Set Up the Database**
+
+1. Open **MySQL Workbench**
+2. Create a new connection
+3. Open and execute:
+
+   ```
+   database/schema.sql
+   ```
+4. Update database credentials in:
+
+   ```
+   backend/src/main/resources/application.properties
+   ```
+
+⚠️ **Note:** 
+- Only the database **structure** is included in this repository.
+- Actual data and credentials are intentionally excluded for security reasons.
 
 ---
 
@@ -305,8 +349,8 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-**Frontend:** [http://localhost:3000](http://localhost:3000)
-**Backend:** [http://localhost:8080](http://localhost:8080)
+- **Frontend:** [http://localhost:3000](http://localhost:3000)
+- **Backend:** [http://localhost:8080](http://localhost:8080)
 
 ---
 
